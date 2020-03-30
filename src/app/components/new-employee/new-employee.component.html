@@ -67,8 +67,90 @@
     </mat-form-field>
     <br>
   </mat-step>
-  <mat-step label="Assign to Projects">
-    Content 2
+  <mat-step label="Assign to Projects" [formGroup]="hoursFormGroup" [stepControl]="hoursFormGroup">
+    <table mat-table [dataSource]="projects" style="width: 100%;" (focusout)="onFocusoutHoursTable()">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <ng-container matColumnDef="projectNumber">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.projectNumber}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="projectName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.projectName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="projectHours">
+        <th mat-header-cell *matHeaderCellDef> Hours </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field style="width: 4em;">
+            <input type="number" matInput formControlName="{{element.projectNumber}}">
+          </mat-form-field>
+        </td>
+<!--        <td mat-cell *matCellDef="let element"> {{element.projectHours}} </td>-->
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="projectTableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: projectTableColumns;"></tr>
+    </table>
+    <br>
+    <span *ngIf="hoursFormGroup.invalid" class="alert-danger">* Total hours must be <= 40 and hours column cannot be negative</span>
+  </mat-step>
+
+  <mat-step label="Add Dependents" [stepControl]="dependentsFormGroup">
+    <!--    ['dependentName', 'sex', 'birthDate', 'relationship'];-->
+
+    <form [formGroup]="dependentsFormGroup">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="dependentName">
+      </mat-form-field>
+      <br>
+      <mat-form-field >
+        <mat-label>Sex</mat-label>
+        <input matInput formControlName="sex">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Birth Date</mat-label>
+        <input matInput formControlName="birthDate">
+      </mat-form-field>
+      <br>
+      <mat-form-field >
+        <mat-label>Relationship</mat-label>
+        <input matInput formControlName="relationship">
+      </mat-form-field>
+    </form>
+    <button mat-stroked-button (click)="onClickButtonAddDependent()">Add dependent</button>
+    <br>
+    <table *ngIf="newDependents.length > 0" mat-table [dataSource]="newDependentsTableSource" style="width: 100%;">
+
+      <ng-container matColumnDef="dependentName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.dependentName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sex">
+        <th mat-header-cell *matHeaderCellDef> Sex </th>
+        <td mat-cell *matCellDef="let element"> {{element.sex}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="relationship">
+        <th mat-header-cell *matHeaderCellDef> Relationship </th>
+        <td mat-cell *matCellDef="let element"> {{element.relationship}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="birthDate">
+        <th mat-header-cell *matHeaderCellDef> Birth Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.birthDate.toLocaleString('en-US')}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="dependentTableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: dependentTableColumns;"></tr>
+    </table>
   </mat-step>
 </mat-vertical-stepper>
 

@@ -10,7 +10,7 @@ import {
   MatFormFieldModule,
   MatInputModule, MatNativeDateModule,
   MatOptionModule,
-  MatSelectModule, MatSnackBarModule, MatStepperModule,
+  MatSelectModule, MatSnackBarModule, MatStepperModule, MatTableModule,
   MatToolbarModule
 } from '@angular/material';
 import { HomeComponent } from './components/home/home.component';
@@ -41,7 +41,8 @@ import { NewEmployeeComponent } from './components/new-employee/new-employee.com
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    MatStepperModule
+    MatStepperModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
