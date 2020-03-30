@@ -11,59 +11,81 @@
   <mat-step label="Employee Info" [formGroup]="employeeInfo" [stepControl]="employeeInfo">
     <mat-form-field>
       <mat-label>SSN</mat-label>
-      <input matInput formControlName="SSN">
+      <label>
+        <input matInput formControlName="SSN">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>First Name</mat-label>
-      <input matInput formControlName="firstName">
+      <label>
+        <input matInput formControlName="firstName">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field>
       <mat-label>Middle Initial</mat-label>
-      <input matInput formControlName="middleInitial">
+      <label>
+        <input matInput formControlName="middleInitial">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>Last Name</mat-label>
-      <input matInput formControlName="lastName">
+      <label>
+        <input matInput formControlName="lastName">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field>
       <mat-label>Birth date</mat-label>
-      <input matInput [matDatepicker]="birthDate" formControlName="birthDate">
+      <label>
+        <input matInput [matDatepicker]="birthDate" formControlName="birthDate">
+      </label>
       <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
       <mat-datepicker #birthDate></mat-datepicker>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>Address</mat-label>
-      <input matInput formControlName="address">
+      <label>
+        <input matInput formControlName="address">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>Sex</mat-label>
-      <input matInput formControlName="sex">
+      <label>
+        <input matInput formControlName="sex">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>Salary</mat-label>
-      <input type="number" matInput formControlName="salary">
+      <label>
+        <input type="number" matInput formControlName="salary">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>Supervisor SSN</mat-label>
-      <input matInput formControlName="supervisorSSN">
+      <label>
+        <input matInput formControlName="supervisorSSN">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>Department Number</mat-label>
-      <input type="number" matInput formControlName="departmentNumber">
+      <label>
+        <input type="number" matInput formControlName="departmentNumber">
+      </label>
     </mat-form-field>
     <br>
     <mat-form-field >
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email">
+      <label>
+        <input matInput formControlName="email">
+      </label>
     </mat-form-field>
     <br>
   </mat-step>
@@ -106,22 +128,30 @@
     <form [formGroup]="dependentsFormGroup">
       <mat-form-field>
         <mat-label>Name</mat-label>
-        <input matInput formControlName="dependentName">
+        <label>
+          <input matInput formControlName="dependentName">
+        </label>
       </mat-form-field>
       <br>
       <mat-form-field >
         <mat-label>Sex</mat-label>
-        <input matInput formControlName="sex">
+        <label>
+          <input matInput formControlName="sex">
+        </label>
       </mat-form-field>
       <br>
       <mat-form-field>
         <mat-label>Birth Date</mat-label>
-        <input matInput formControlName="birthDate">
+        <label>
+          <input matInput formControlName="birthDate">
+        </label>
       </mat-form-field>
       <br>
       <mat-form-field >
         <mat-label>Relationship</mat-label>
-        <input matInput formControlName="relationship">
+        <label>
+          <input matInput formControlName="relationship">
+        </label>
       </mat-form-field>
     </form>
     <button mat-stroked-button (click)="onClickButtonAddDependent()">Add dependent</button>
