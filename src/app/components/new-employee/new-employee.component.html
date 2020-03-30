@@ -1,1 +1,81 @@
-<p>new-employee works!</p>
+<h1>New Employee</h1>
+<!--<mat-card>-->
+<!--  <mat-card-title>Employee Info</mat-card-title>-->
+<!--  <br>-->
+<!--  <mat-card-content (focusout)="onBlurEmployeeInfoCard()" [formGroup]="employeeInfo">-->
+
+<!--  </mat-card-content>-->
+<!--</mat-card>-->
+
+<mat-vertical-stepper [linear]="true">
+  <mat-step label="Employee Info" [formGroup]="employeeInfo" [stepControl]="employeeInfo">
+    <mat-form-field>
+      <mat-label>SSN</mat-label>
+      <input matInput formControlName="SSN">
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Middle Initial</mat-label>
+      <input matInput formControlName="middleInitial">
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Birth date</mat-label>
+      <input matInput [matDatepicker]="birthDate" formControlName="birthDate">
+      <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+      <mat-datepicker #birthDate></mat-datepicker>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address">
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>Sex</mat-label>
+      <input matInput formControlName="sex">
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>Salary</mat-label>
+      <input type="number" matInput formControlName="salary">
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>Supervisor SSN</mat-label>
+      <input matInput formControlName="supervisorSSN">
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>Department Number</mat-label>
+      <input type="number" matInput formControlName="departmentNumber">
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <br>
+  </mat-step>
+  <mat-step label="Assign to Projects">
+    Content 2
+  </mat-step>
+</mat-vertical-stepper>
+
+<!--<mat-card>-->
+<!--  <mat-card-title>Assign to Projects</mat-card-title>-->
+<!--  <br>-->
+<!--  <mat-card-content>-->
+
+<!--  </mat-card-content>-->
+<!--</mat-card>-->

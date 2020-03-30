@@ -5,17 +5,17 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatDatepickerModule,
   MatDividerModule,
   MatFormFieldModule,
-  MatInputModule,
+  MatInputModule, MatNativeDateModule,
   MatOptionModule,
-  MatSelectModule, MatSnackBarModule,
+  MatSelectModule, MatSnackBarModule, MatStepperModule,
   MatToolbarModule
 } from '@angular/material';
 import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NewEmployeeComponent } from './components/new-employee/new-employee.component';
 
 @NgModule({
@@ -37,7 +37,11 @@ import { NewEmployeeComponent } from './components/new-employee/new-employee.com
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatStepperModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import {Router} from '@angular/router';
+import {NavigationExtras, Router} from '@angular/router';
+import {StateService} from '../../state.service';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +11,16 @@ import {Router} from '@angular/router';
 export class HomeComponent implements OnInit {
   ssn = '';
   constructor(private snackBar: MatSnackBar,
-              private router: Router) { }
+              private router: Router,
+              private state: StateService) { }
 
   ngOnInit() {
   }
   onClickSubmit() {
     if (this.ssnValid()) {
-      console.log(this.ssn);
+      this.state.setManagerSSN(this.ssn);
+      this.router.navigate(['/new-employee'])
+        .catch(e => console.error(e));
     } else {
       this.showSnack('Invalid SSN');
     }
