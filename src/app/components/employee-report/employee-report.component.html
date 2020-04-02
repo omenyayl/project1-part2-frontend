@@ -1,0 +1,107 @@
+<h1> Created Employee </h1>
+<mat-card>
+  <h2>Employee Info</h2>
+  <mat-card-content>
+    <h3>SSN</h3>
+    <p class="tabbed"> {{createdEmployee.employee.SSN}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">First Name</h3>
+    <p class="tabbed">{{createdEmployee.employee.firstName}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Middle Initial</h3>
+    <p class="tabbed">{{createdEmployee.employee.middleInitial}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Last Name</h3>
+    <p class="tabbed">{{createdEmployee.employee.lastName}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Birth Date</h3>
+    <p class="tabbed">{{getReadableDate(createdEmployee.employee.birthDate)}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Address</h3>
+    <p class="tabbed">{{createdEmployee.employee.address}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Sex</h3>
+    <p class="tabbed">{{createdEmployee.employee.sex}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Salary</h3>
+    <p class="tabbed">{{createdEmployee.employee.salary}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Supervisor SSN</h3>
+    <p class="tabbed">{{createdEmployee.employee.supervisorSSN}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Department Number</h3>
+    <p class="tabbed">{{createdEmployee.employee.departmentNumber}}</p>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="padding-top-08">Email</h3>
+    <p class="tabbed">{{createdEmployee.employee.email}}</p>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card style="margin-top: 1em;">
+  <h2>Projects Worked On</h2>
+  <table *ngIf="createdEmployee.worksOn.length > 0" mat-table [dataSource]="createdEmployee.worksOn" style="width: 100%">
+
+    <ng-container matColumnDef="projectNumber">
+      <th mat-header-cell *matHeaderCellDef> Project Number </th>
+      <td mat-cell *matCellDef="let element"> {{element.projectNumber}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="hours">
+      <th mat-header-cell *matHeaderCellDef> Hours </th>
+      <td mat-cell *matCellDef="let element"> {{element.hours}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="worksOnTableHeader"></tr>
+    <tr mat-row *matRowDef="let row; columns: worksOnTableHeader;"></tr>
+  </table>
+</mat-card>
+
+<mat-card style="margin-top: 1em;">
+  <h2>Dependents</h2>
+  <table *ngIf="createdEmployee.dependents.length > 0" mat-table [dataSource]="createdEmployee.dependents" style="width: 100%">
+
+    <ng-container matColumnDef="dependentName">
+      <th mat-header-cell *matHeaderCellDef> Dependent Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.dependentName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthDate">
+      <th mat-header-cell *matHeaderCellDef> Birth Date </th>
+      <td mat-cell *matCellDef="let element"> {{getReadableDate(element.birthDate)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="relationship">
+      <th mat-header-cell *matHeaderCellDef> Relationship </th>
+      <td mat-cell *matCellDef="let element"> {{element.relationship}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sex">
+      <th mat-header-cell *matHeaderCellDef> Sex </th>
+      <td mat-cell *matCellDef="let element"> {{element.sex}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="dependentsTableHeader"></tr>
+    <tr mat-row *matRowDef="let row; columns: dependentsTableHeader;"></tr>
+  </table>
+</mat-card>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import {NavigationExtras, Router} from '@angular/router';
-import {StateService} from '../../state.service';
+import {StateService} from '../../services/state/state.service';
 
 @Component({
   selector: 'app-home',

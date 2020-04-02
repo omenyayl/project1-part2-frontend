@@ -1,6 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Project} from '../models/Project';
+import {Project} from '../../models/Project';
 import {Observable} from 'rxjs';
+import {CreatedEmployee} from '../../models/CreatedEmployee';
+import {Employee} from '../../models/Employee';
+import {WorksOn} from '../../models/WorksOn';
+import {Dependent} from '../../models/Dependent';
+import {ProgressBarService} from '../progress-bar/progress-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,13 +49,30 @@ export class APIService {
       departmentNumber: 4,
     }
   ];
+  newEmployees: CreatedEmployee[] = [];
 
-  constructor() {
+  constructor(private progressBarService: ProgressBarService) {
   }
 
   getProjects(): Observable<Project[]> {
-    return new Observable((observer) => {
+    this.progressBarService.showProgressBar();
+    return new Observable(observer => {
       observer.next(this.projects);
+      this.progressBarService.hideProgressBar();
+    });
+  }
+  addEmployee(employee: Employee, worksOn: WorksOn[], dependents: Dependent[]) {
+    this.newEmployees.push({
+      dependents,
+      employee,
+      worksOn
+    });
+  }
+  isManager(ssn: string): Observable<boolean> {
+    this.progressBarService.showProgressBar();
+    return new Observable(observer => {
+      observer.next(true);
+      this.progressBarService.hideProgressBar();
     });
   }
 }

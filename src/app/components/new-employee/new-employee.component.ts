@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {StateService} from '../../state.service';
+import {StateService} from '../../services/state/state.service';
 import {Router} from '@angular/router';
-import {Employee} from '../../models/Employee';
 import {MatDatepicker, MatTableDataSource} from '@angular/material';
-import {AbstractControl, Form, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Project} from '../../models/Project';
-import {APIService} from '../../services/api.service';
+import {APIService} from '../../services/api/api.service';
 import {Dependent} from '../../models/Dependent';
+import {EmployeeService} from '../../services/employee/employee.service';
+import {Employee} from '../../models/Employee';
+import {WorksOn} from '../../models/WorksOn';
+import {CreatedEmployee} from '../../models/CreatedEmployee';
 
 function valid(...validators) {
   return Validators.compose(validators);
@@ -24,7 +27,7 @@ export class NewEmployeeComponent implements OnInit {
     firstName: new FormControl('oleg', valid(Validators.required)),
     middleInitial: new FormControl('i', valid(Validators.required)),
     lastName: new FormControl('menyaylenko', valid(Validators.required)),
-    birthDate: new FormControl(new Date('9/28/1997'), valid(Validators.required)),
+    birthDate: new FormControl(new Date('8/28/1997'), valid(Validators.required)),
     address: new FormControl('3453 paige ct', valid(Validators.required)),
     sex: new FormControl('m', valid(Validators.required, Validators.maxLength(1), Validators.pattern('(m|f|F|M)'))),
     salary: new FormControl('4326', valid(Validators.required)),
@@ -35,7 +38,6 @@ export class NewEmployeeComponent implements OnInit {
   // projects info form
   projects: Project[];
   projectTableColumns = ['projectNumber', 'projectName', 'projectHours'];
-  projectHours: FormGroup = new FormGroup({});
   hoursFormGroup = new FormGroup({});
   // dependents info form
   newDependents: Dependent[] = [];
@@ -49,16 +51,43 @@ export class NewEmployeeComponent implements OnInit {
   });
 
   constructor(private state: StateService,
+              private employeeService: EmployeeService,
               private api: APIService,
               private router: Router) { }
 
   ngOnInit() {
-    this.state.setManagerSSN('12345');
-    if (this.state.getManagerSSN() === '') {
+    if (this.state.getManagerSSN() === undefined) {
       this.router.navigate(['home'])
         .catch(e => console.error(e));
     }
     this.loadProjects();
+  }
+  onClickButtonCreateEmployee() {
+    const employee: Employee = this.parseEmployeeInfoFormGroup();
+    const dependents = this.newDependents;
+    const worksOn = this.parseHoursFormGroup();
+    const createdEmployee: CreatedEmployee = {
+      dependents, employee, worksOn
+    };
+    this.employeeService.createEmployee(createdEmployee);
+    this.launchEmployeeReport(createdEmployee);
+  }
+  onClickButtonAddDependent() {
+    if (this.dependentsFormGroup.invalid) { return; }
+    const dependentValue = this.dependentsFormGroup.value;
+    const dependent: Dependent = {
+      employeeSSN: this.state.getManagerSSN(),
+      dependentName: dependentValue.dependentName,
+      birthDate: dependentValue.birthDate,
+      relationship: dependentValue.relationship,
+      sex: dependentValue.sex
+    };
+    this.newDependents.push(dependent);
+    this.newDependentsTableSource = new MatTableDataSource(this.newDependents);
+    this.dependentsFormGroup.reset();
+  }
+  onClickButtonRestart() {
+    window.location.reload();
   }
   private loadProjects() {
     this.api.getProjects()
@@ -89,19 +118,39 @@ export class NewEmployeeComponent implements OnInit {
   private onFocusoutHoursTable() {
     this.hoursFormGroup.updateValueAndValidity();
   }
-  onClickButtonAddDependent() {
-    if (this.dependentsFormGroup.invalid) { return; }
-    const dependentValue = this.dependentsFormGroup.value;
-    const dependent: Dependent = {
-      employeeSSN: this.state.getManagerSSN(),
-      dependentName: dependentValue.dependentName,
-      birthDate: dependentValue.birthDate,
-      relationship: dependentValue.relationship,
-      sex: dependentValue.sex
+  private parseEmployeeInfoFormGroup(): Employee {
+    const employeeInfoValue = this.employeeInfo.value;
+    return {
+      SSN: employeeInfoValue.SSN,
+      firstName: employeeInfoValue.firstName,
+      middleInitial: employeeInfoValue.middleInitial,
+      lastName: employeeInfoValue.lastName,
+      birthDate: employeeInfoValue.birthDate,
+      address: employeeInfoValue.address,
+      sex: employeeInfoValue.sex,
+      salary: employeeInfoValue.salary,
+      supervisorSSN: employeeInfoValue.supervisorSSN,
+      departmentNumber: employeeInfoValue.departmentNumber,
+      email: employeeInfoValue.email,
     };
-    this.newDependents.push(dependent);
-    this.newDependentsTableSource = new MatTableDataSource(this.newDependents);
-    this.dependentsFormGroup.reset();
-    console.log(this.newDependents);
+  }
+  private parseHoursFormGroup(): WorksOn[] {
+    const worksOn: WorksOn[] = [];
+    const worksOnValue = this.hoursFormGroup.value;
+    for (const pNum in worksOnValue) {
+      if (worksOnValue.hasOwnProperty(pNum) && worksOnValue[pNum] > 0) {
+        worksOn.push({
+          projectNumber: parseInt(pNum, 10),
+          hours: worksOnValue[pNum]
+        });
+      }
+    }
+    return worksOn;
+  }
+
+  private launchEmployeeReport(createdEmployee: CreatedEmployee) {
+    this.state.setCreatedEmployee(createdEmployee);
+    this.router.navigate(['employee-report'])
+      .catch(e => console.error(e));
   }
 }

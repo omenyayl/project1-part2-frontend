@@ -1,3 +1,6 @@
 .container {
   padding: 2em;
 }
+.toolbar-nav-button {
+  height: 100%
+}

@@ -1,4 +1,9 @@
-<mat-toolbar>Employee Manager</mat-toolbar>
+<mat-toolbar>
+  <span>Employee Manager</span>
+  <span style="flex: 1 1 auto;"></span>
+  <button mat-button class="toolbar-nav-button" (click)="onClickButtonHome()">Home</button>
+</mat-toolbar>
+<mat-progress-bar mode="query" color="warn" *ngIf="progressBarShown"></mat-progress-bar>
 <div class="container">
   <router-outlet></router-outlet>
 </div>
