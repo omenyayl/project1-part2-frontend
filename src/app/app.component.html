@@ -3,7 +3,9 @@
   <span style="flex: 1 1 auto;"></span>
   <button mat-button class="toolbar-nav-button" (click)="onClickButtonHome()">Home</button>
 </mat-toolbar>
-<mat-progress-bar mode="query" color="warn" *ngIf="progressBarShown"></mat-progress-bar>
+<div style="height: 0.5em;">
+  <mat-progress-bar mode="query" color="warn" *ngIf="progressBarShown"></mat-progress-bar>
+</div>
 <div class="container">
   <router-outlet></router-outlet>
 </div>

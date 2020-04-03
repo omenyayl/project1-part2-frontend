@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StateService} from '../../services/state/state.service';
 import {Router} from '@angular/router';
-import {MatDatepicker, MatTableDataSource} from '@angular/material';
+import {MatDatepicker, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Project} from '../../models/Project';
 import {APIService} from '../../services/api/api.service';
@@ -53,7 +53,8 @@ export class NewEmployeeComponent implements OnInit {
   constructor(private state: StateService,
               private employeeService: EmployeeService,
               private api: APIService,
-              private router: Router) { }
+              private router: Router,
+              private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.state.getManagerSSN() === undefined) {
@@ -69,8 +70,14 @@ export class NewEmployeeComponent implements OnInit {
     const createdEmployee: CreatedEmployee = {
       dependents, employee, worksOn
     };
-    this.employeeService.createEmployee(createdEmployee);
-    this.launchEmployeeReport(createdEmployee);
+    this.employeeService.createEmployee(createdEmployee)
+      .subscribe(e => {
+        if (e) {
+          this.snackbar.open('Error creating employee, please check your connection.', null, {duration: 2000});
+        } else {
+          this.launchEmployeeReport(createdEmployee);
+        }
+      });
   }
   onClickButtonAddDependent() {
     if (this.dependentsFormGroup.invalid) { return; }

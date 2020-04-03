@@ -61,18 +61,27 @@ export class APIService {
       this.progressBarService.hideProgressBar();
     });
   }
-  addEmployee(employee: Employee, worksOn: WorksOn[], dependents: Dependent[]) {
-    this.newEmployees.push({
-      dependents,
-      employee,
-      worksOn
+  addEmployee(createdEmployee: CreatedEmployee): Observable<Error> {
+    return new Observable(subscriber => {
+      this.progressBarService.showProgressBar();
+      setTimeout(() => {
+        this.newEmployees.push({
+          dependents: createdEmployee.dependents,
+          employee: createdEmployee.employee,
+          worksOn: createdEmployee.worksOn
+        });
+        subscriber.next(null);
+        this.progressBarService.hideProgressBar();
+      }, 1000);
     });
   }
   isManager(ssn: string): Observable<boolean> {
     this.progressBarService.showProgressBar();
     return new Observable(observer => {
-      observer.next(true);
-      this.progressBarService.hideProgressBar();
+      setTimeout(() => {
+        observer.next(true);
+        this.progressBarService.hideProgressBar();
+      }, 1000);
     });
   }
 }
