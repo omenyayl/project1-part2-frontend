@@ -62,6 +62,7 @@ export class APIService {
     });
   }
   addEmployee(createdEmployee: CreatedEmployee): Observable<Error> {
+    console.log(JSON.stringify(createdEmployee, null, 2));
     return new Observable(subscriber => {
       this.progressBarService.showProgressBar();
       setTimeout(() => {

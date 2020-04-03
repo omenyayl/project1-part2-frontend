@@ -23,7 +23,7 @@ export class NewEmployeeComponent implements OnInit {
   birthDate: MatDatepicker<Date>;
   // employee info form
   employeeInfo: FormGroup = new FormGroup({
-    SSN: new FormControl('123456789', valid(Validators.required)),
+    employeeSSN: new FormControl('123456789', valid(Validators.required)),
     firstName: new FormControl('oleg', valid(Validators.required)),
     middleInitial: new FormControl('i', valid(Validators.required)),
     lastName: new FormControl('menyaylenko', valid(Validators.required)),
@@ -128,7 +128,7 @@ export class NewEmployeeComponent implements OnInit {
   private parseEmployeeInfoFormGroup(): Employee {
     const employeeInfoValue = this.employeeInfo.value;
     return {
-      SSN: employeeInfoValue.SSN,
+      employeeSSN: employeeInfoValue.employeeSSN,
       firstName: employeeInfoValue.firstName,
       middleInitial: employeeInfoValue.middleInitial,
       lastName: employeeInfoValue.lastName,

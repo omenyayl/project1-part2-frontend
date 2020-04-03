@@ -33,12 +33,12 @@ export class HomeComponent implements OnInit {
           this.processing = false;
         });
     } else {
-      this.showSnack('Invalid SSN');
+      this.showSnack('Invalid employeeSSN');
     }
   }
 
   /**
-   * @return If the SSN is valid
+   * @return If the employeeSSN is valid
    */
   ssnValid(): boolean {
     return this.ssn.length > 0;

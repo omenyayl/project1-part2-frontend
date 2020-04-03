@@ -1,5 +1,5 @@
 export class Employee {
-  SSN: string;
+  employeeSSN: string;
   firstName: string;
   middleInitial: string;
   lastName: string;
