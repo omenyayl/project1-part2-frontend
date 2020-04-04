@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material';
 import { Router} from '@angular/router';
 import {StateService} from '../../services/state/state.service';
 import {APIService} from '../../services/api/api.service';
+import {ProgressBarService} from '../../services/progress-bar/progress-bar.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ export class HomeComponent implements OnInit {
   constructor(private snackBar: MatSnackBar,
               private router: Router,
               private state: StateService,
-              private api: APIService) { }
+              private api: APIService,
+              private progressBar: ProgressBarService) { }
 
   ngOnInit() {
   }
@@ -23,17 +25,21 @@ export class HomeComponent implements OnInit {
     if (this.processing) { return; }
     if (this.ssnValid()) {
       this.processing = true;
+      this.progressBar.showProgressBar();
       this.api.isManager(this.ssn)
         .subscribe(isManager => {
-          if (!isManager) {
+          if (isManager === null) {
+            this.showSnack('A network error occurred, please try again later.');
+          } else if (!isManager.manager) {
             this.showSnack('Access denied: you are not a manager');
           } else {
             this.navigateToNewEmployeePage();
           }
           this.processing = false;
+          this.progressBar.hideProgressBar();
         });
     } else {
-      this.showSnack('Invalid employeeSSN');
+      this.showSnack('Invalid employee SSN');
     }
   }
 

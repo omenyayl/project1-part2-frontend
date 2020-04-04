@@ -3,6 +3,7 @@ import {APIService} from '../api/api.service';
 import {CreatedEmployee} from '../../models/CreatedEmployee';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {InsertStatus} from '../../models/api-response/InsertStatus';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,7 @@ import {tap} from 'rxjs/operators';
 export class EmployeeService {
 
   constructor(private api: APIService) { }
-  createEmployee(createdEmployee: CreatedEmployee): Observable<Error> {
-    return this.api.addEmployee(createdEmployee)
-      .pipe(tap(e => {
-        if (e) {
-          console.error(e);
-        }
-      }));
+  createEmployee(createdEmployee: CreatedEmployee): Observable<InsertStatus> {
+    return this.api.addEmployee(createdEmployee);
   }
 }

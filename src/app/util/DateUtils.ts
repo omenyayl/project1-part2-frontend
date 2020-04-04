@@ -1,3 +1,6 @@
 export function getReadableDate(date: Date): string {
-  return date.toLocaleDateString();
+  if (date === null) {
+    return '';
+  }
+  return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
 }

@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NewEmployeeComponent } from './components/new-employee/new-employee.component';
 import { EmployeeReportComponent } from './components/employee-report/employee-report.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { EmployeeReportComponent } from './components/employee-report/employee-r
     MatStepperModule,
     MatTableModule,
     MatListModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

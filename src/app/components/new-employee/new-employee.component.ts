@@ -10,6 +10,9 @@ import {EmployeeService} from '../../services/employee/employee.service';
 import {Employee} from '../../models/Employee';
 import {WorksOn} from '../../models/WorksOn';
 import {CreatedEmployee} from '../../models/CreatedEmployee';
+import {getReadableDate} from '../../util/DateUtils';
+import {ProgressBarService} from '../../services/progress-bar/progress-bar.service';
+import {InsertStatus} from '../../models/api-response/InsertStatus';
 
 function valid(...validators) {
   return Validators.compose(validators);
@@ -23,17 +26,17 @@ export class NewEmployeeComponent implements OnInit {
   birthDate: MatDatepicker<Date>;
   // employee info form
   employeeInfo: FormGroup = new FormGroup({
-    employeeSSN: new FormControl('123456789', valid(Validators.required)),
-    firstName: new FormControl('oleg', valid(Validators.required)),
-    middleInitial: new FormControl('i', valid(Validators.required)),
-    lastName: new FormControl('menyaylenko', valid(Validators.required)),
-    birthDate: new FormControl(new Date('8/28/1997'), valid(Validators.required)),
-    address: new FormControl('3453 paige ct', valid(Validators.required)),
-    sex: new FormControl('m', valid(Validators.required, Validators.maxLength(1), Validators.pattern('(m|f|F|M)'))),
-    salary: new FormControl('4326', valid(Validators.required)),
-    supervisorSSN: new FormControl('163948572', valid(Validators.required)),
-    departmentNumber: new FormControl('3', valid(Validators.required)),
-    email: new FormControl('asdgoi@yahoo.com', valid(Validators.required)),
+    employeeSSN: new FormControl('', valid(Validators.required, Validators.minLength(9), Validators.maxLength(9))),
+    firstName: new FormControl('', valid(Validators.required, Validators.maxLength(15))),
+    middleInitial: new FormControl('', valid(Validators.maxLength(1))),
+    lastName: new FormControl('', valid(Validators.required, Validators.maxLength(15))),
+    birthDate: new FormControl(),
+    address: new FormControl('', valid(Validators.maxLength(30))),
+    sex: new FormControl('', valid(Validators.maxLength(1), Validators.pattern('(m|f|F|M)'))),
+    salary: new FormControl('', valid(Validators.required, Validators.maxLength(11))),
+    supervisorSSN: new FormControl('', valid(Validators.minLength(9), Validators.maxLength(9))),
+    departmentNumber: new FormControl('', valid(Validators.required, Validators.maxLength(4))),
+    email: new FormControl('', valid(Validators.maxLength(50))),
   });
   // projects info form
   projects: Project[];
@@ -44,24 +47,26 @@ export class NewEmployeeComponent implements OnInit {
   newDependentsTableSource: MatTableDataSource<Dependent> = new MatTableDataSource(this.newDependents);
   dependentTableColumns = ['dependentName', 'sex', 'birthDate', 'relationship'];
   dependentsFormGroup = new FormGroup({
-    dependentName: new FormControl('Alice', valid(Validators.required)),
-    sex: new FormControl('f', valid(Validators.required)),
-    birthDate: new FormControl(new Date('02/23/2004'), valid(Validators.required)),
-    relationship: new FormControl('daughter', valid(Validators.required))
+    dependentName: new FormControl('', valid(Validators.required, Validators.maxLength(15))),
+    sex: new FormControl('', valid(Validators.required, Validators.maxLength(1), Validators.pattern('(m|f|F|M)'))),
+    birthDate: new FormControl(),
+    relationship: new FormControl('', valid(Validators.maxLength(8)))
   });
 
   constructor(private state: StateService,
               private employeeService: EmployeeService,
               private api: APIService,
               private router: Router,
-              private snackbar: MatSnackBar) { }
-
+              private snackbar: MatSnackBar,
+              private progressBar: ProgressBarService) { }
+  getReadableDate = getReadableDate;
   ngOnInit() {
     if (this.state.getManagerSSN() === undefined) {
       this.router.navigate(['home'])
         .catch(e => console.error(e));
     }
     this.loadProjects();
+    this.employeeInfo.controls.supervisorSSN.setValue(this.state.getManagerSSN());
   }
   onClickButtonCreateEmployee() {
     const employee: Employee = this.parseEmployeeInfoFormGroup();
@@ -70,13 +75,15 @@ export class NewEmployeeComponent implements OnInit {
     const createdEmployee: CreatedEmployee = {
       dependents, employee, worksOn
     };
+    this.progressBar.showProgressBar();
     this.employeeService.createEmployee(createdEmployee)
-      .subscribe(e => {
-        if (e) {
-          this.snackbar.open('Error creating employee, please check your connection.', null, {duration: 2000});
+      .subscribe((status: InsertStatus) => {
+        if (!status.success) {
+          this.snackbar.open(status.errorMessage, null, {duration: 2000});
         } else {
           this.launchEmployeeReport(createdEmployee);
         }
+        this.progressBar.hideProgressBar();
       });
   }
   onClickButtonAddDependent() {
@@ -99,6 +106,9 @@ export class NewEmployeeComponent implements OnInit {
   private loadProjects() {
     this.api.getProjects()
       .subscribe(p => {
+        if (p.length === 0) {
+          this.snackbar.open('Unable to get the list of available projects from the server.', null, {duration: 4000});
+        }
         this.projects = p;
         this.initHoursFormGroup(p);
       });
@@ -122,7 +132,7 @@ export class NewEmployeeComponent implements OnInit {
       }
     );
   }
-  private onFocusoutHoursTable() {
+  onFocusoutHoursTable() {
     this.hoursFormGroup.updateValueAndValidity();
   }
   private parseEmployeeInfoFormGroup(): Employee {

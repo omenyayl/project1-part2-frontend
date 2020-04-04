@@ -16,7 +16,7 @@ export class EmployeeReportComponent implements OnInit {
   constructor(private router: Router,
               private state: StateService) {
   }
-  private getReadableDate = getReadableDate;
+  getReadableDate = getReadableDate;
   ngOnInit() {
     this.createdEmployee = this.state.getCreatedEmployee();
     if (this.createdEmployee === undefined) {
