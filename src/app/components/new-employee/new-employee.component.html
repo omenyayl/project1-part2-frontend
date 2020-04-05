@@ -52,14 +52,12 @@
         <input matInput formControlName="address">
       </label>
     </mat-form-field>
-    <br>
-    <mat-form-field >
-      <mat-label>Sex</mat-label>
-      <label>
-        <input matInput formControlName="sex">
-      </label>
-    </mat-form-field>
-    <br>
+    <p style="color: #c7c7c7;">Sex</p>
+    <mat-radio-group aria-label="Select an option" formControlName="sex">
+      <mat-radio-button value="M" color="primary" style="padding-right: 1em; color: white;">Male</mat-radio-button>
+      <mat-radio-button value="F" color="primary" style="color: white;">Female</mat-radio-button>
+    </mat-radio-group>
+    <br><br>
     <mat-form-field >
       <mat-label>Salary</mat-label>
       <label>
@@ -133,13 +131,12 @@
         </label>
       </mat-form-field>
       <br>
-      <mat-form-field >
-        <mat-label>Sex</mat-label>
-        <label>
-          <input matInput formControlName="sex">
-        </label>
-      </mat-form-field>
-      <br>
+      <p style="color: #c7c7c7;">Sex</p>
+      <mat-radio-group aria-label="Select an option" formControlName="sex">
+        <mat-radio-button value="M" color="primary" style="padding-right: 1em; color: white;">Male</mat-radio-button>
+        <mat-radio-button value="F" color="primary" style="color: white;">Female</mat-radio-button>
+      </mat-radio-group>
+      <br><br>
       <mat-form-field>
         <mat-label>Birth date</mat-label>
         <label>
@@ -185,8 +182,7 @@
     </table>
   </mat-step>
   <mat-step label="Done">
-    <button mat-stroked-button (click)="onClickButtonRestart()">Restart</button>
-    <button mat-stroked-button style="margin-left: 0.5em;" (click)="onClickButtonCreateEmployee()">Create Employee</button>
+    <button mat-stroked-button (click)="onClickButtonCreateEmployee()">Create Employee</button>
   </mat-step>
 </mat-vertical-stepper>
 

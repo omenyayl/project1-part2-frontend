@@ -4,6 +4,7 @@ import { Router} from '@angular/router';
 import {StateService} from '../../services/state/state.service';
 import {APIService} from '../../services/api/api.service';
 import {ProgressBarService} from '../../services/progress-bar/progress-bar.service';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,10 @@ import {ProgressBarService} from '../../services/progress-bar/progress-bar.servi
 export class HomeComponent implements OnInit {
   ssn = '';
   processing = false;
+  ssnInputForm = new FormControl('', Validators.compose([
+    Validators.required,
+    Validators.minLength(9),
+    Validators.maxLength(9)]));
   constructor(private snackBar: MatSnackBar,
               private router: Router,
               private state: StateService,
@@ -23,7 +28,8 @@ export class HomeComponent implements OnInit {
   }
   onClickSubmit() {
     if (this.processing) { return; }
-    if (this.ssnValid()) {
+    if (this.ssnInputForm.valid) {
+      this.ssn = this.ssnInputForm.value;
       this.processing = true;
       this.progressBar.showProgressBar();
       this.api.isManager(this.ssn)

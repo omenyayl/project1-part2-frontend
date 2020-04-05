@@ -9,7 +9,7 @@ import {
   MatDividerModule,
   MatFormFieldModule,
   MatInputModule, MatListModule, MatNativeDateModule,
-  MatOptionModule, MatProgressBarModule,
+  MatOptionModule, MatProgressBarModule, MatRadioModule,
   MatSelectModule, MatSnackBarModule, MatStepperModule, MatTableModule,
   MatToolbarModule
 } from '@angular/material';
@@ -48,7 +48,8 @@ import {HttpClientModule} from '@angular/common/http';
     MatTableModule,
     MatListModule,
     MatProgressBarModule,
-    HttpClientModule
+    HttpClientModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

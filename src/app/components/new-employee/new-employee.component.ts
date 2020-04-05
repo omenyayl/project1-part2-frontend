@@ -100,9 +100,6 @@ export class NewEmployeeComponent implements OnInit {
     this.newDependentsTableSource = new MatTableDataSource(this.newDependents);
     this.dependentsFormGroup.reset();
   }
-  onClickButtonRestart() {
-    window.location.reload();
-  }
   private loadProjects() {
     this.api.getProjects()
       .subscribe(p => {
