@@ -33,9 +33,9 @@ export class NewEmployeeComponent implements OnInit {
     birthDate: new FormControl(),
     address: new FormControl('', valid(Validators.maxLength(30))),
     sex: new FormControl('', valid(Validators.maxLength(1), Validators.pattern('(m|f|F|M)'))),
-    salary: new FormControl('', valid(Validators.required, Validators.maxLength(11))),
+    salary: new FormControl('', valid(Validators.required, Validators.max(99999999))),
     supervisorSSN: new FormControl('', valid(Validators.minLength(9), Validators.maxLength(9))),
-    departmentNumber: new FormControl('', valid(Validators.required, Validators.maxLength(4))),
+    departmentNumber: new FormControl('', valid(Validators.required, Validators.max(999))),
     email: new FormControl('', valid(Validators.maxLength(50))),
   });
   // projects info form
