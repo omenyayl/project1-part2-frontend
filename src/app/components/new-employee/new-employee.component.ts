@@ -43,6 +43,7 @@ export class NewEmployeeComponent implements OnInit {
   projectTableColumns = ['projectNumber', 'projectName', 'projectHours'];
   hoursFormGroup = new FormGroup({});
   // dependents info form
+  hasDependents = false;
   newDependents: Dependent[] = [];
   newDependentsTableSource: MatTableDataSource<Dependent> = new MatTableDataSource(this.newDependents);
   dependentTableColumns = ['dependentName', 'sex', 'birthDate', 'relationship'];

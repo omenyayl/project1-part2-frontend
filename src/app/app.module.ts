@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
-  MatCardModule, MatDatepickerModule,
+  MatCardModule, MatCheckboxModule, MatDatepickerModule,
   MatDividerModule,
   MatFormFieldModule,
   MatInputModule, MatListModule, MatNativeDateModule,
@@ -49,7 +49,8 @@ import {HttpClientModule} from '@angular/common/http';
     MatListModule,
     MatProgressBarModule,
     HttpClientModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

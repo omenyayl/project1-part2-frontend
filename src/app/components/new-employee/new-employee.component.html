@@ -122,8 +122,9 @@
 
   <mat-step label="Add Dependents">
     <!--    ['dependentName', 'sex', 'birthDate', 'relationship'];-->
-
-    <form [formGroup]="dependentsFormGroup">
+    <br/>
+    <mat-checkbox [checked]="hasDependents" [(ngModel)]="hasDependents" style="color: white;">Has Dependents</mat-checkbox>
+    <form *ngIf="hasDependents" [formGroup]="dependentsFormGroup" style="margin-top: 1em;">
       <mat-form-field>
         <mat-label>Name*</mat-label>
         <label>
@@ -153,8 +154,9 @@
           <input matInput formControlName="relationship">
         </label>
       </mat-form-field>
+      <br>
+      <button mat-stroked-button (click)="onClickButtonAddDependent()">Add dependent</button>
     </form>
-    <button mat-stroked-button (click)="onClickButtonAddDependent()">Add dependent</button>
     <br>
     <table *ngIf="newDependents.length > 0" mat-table [dataSource]="newDependentsTableSource" style="width: 100%;">
 
